@@ -12,13 +12,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 
     <style>
-        /* --- CSS Variables for easy color management --- */
+        /* --- CSS Variables --- */
         :root {
             --navy: #0A2342;
             --gold: #C0A062;
             --white: #FFFFFF;
             --light-gray: #F5F5F5;
             --text-gray: #CCCCCC;
+            --modal-bg: rgba(10, 35, 66, 0.95);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -28,11 +29,11 @@
             background-color: var(--navy);
             color: var(--white);
             line-height: 1.6;
-            overflow-x: hidden; /* Prevent horizontal scroll */
+            overflow-x: hidden;
         }
 
         /* --- Typography --- */
-        h1, h2, h3 {
+        h1, h2, h3, h4 {
             font-family: 'Playfair Display', serif;
             color: var(--white);
         }
@@ -40,10 +41,11 @@
         h1 { font-size: 3rem; line-height: 1.2; margin-bottom: 1rem; }
         h2 { font-size: 2.5rem; margin-bottom: 1.5rem; color: var(--gold); }
         h3 { font-size: 1.5rem; margin-bottom: 1rem; }
+        h4 { font-size: 1.2rem; margin-bottom: 0.5rem; color: var(--gold); margin-top: 1.5rem; }
         
         p { font-size: 1.1rem; color: var(--text-gray); font-weight: 300; margin-bottom: 1.5rem; }
 
-        a { text-decoration: none; transition: color 0.3s ease; }
+        a { text-decoration: none; transition: color 0.3s ease; cursor: pointer; }
 
         /* --- Layout Utilities --- */
         .container {
@@ -77,9 +79,9 @@
             transform: translateY(-2px);
         }
 
-        /* --- Header / Hero Section --- */
+        /* --- Hero Section --- */
         .hero {
-            min-height: 90vh; /* Takes up most of the screen */
+            min-height: 90vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -110,57 +112,31 @@
             margin-bottom: 30px;
         }
 
-        .hero-content {
-            max-width: 800px;
-        }
+        .hero-content { max-width: 800px; }
 
         /* --- About Section --- */
-        .about {
-            background-color: rgba(255, 255, 255, 0.02); /* Very subtle lighter background */
-            text-align: center;
-        }
+        .about { background-color: rgba(255, 255, 255, 0.02); text-align: center; }
+        .about-text { max-width: 800px; margin: 0 auto; font-size: 1.25rem; line-height: 1.8; }
 
-        .about-text {
-            max-width: 800px;
-            margin: 0 auto;
-            font-size: 1.25rem; /* Slightly larger text for impact */
-            line-height: 1.8;
-        }
-
-        /* --- Highlights Grid Section --- */
-        .highlights {
-            text-align: center;
-        }
-
+        /* --- Highlights Section --- */
+        .highlights { text-align: center; }
         .highlights-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
             margin-top: 40px;
         }
-
         .highlight-card {
             padding: 30px;
             border: 1px solid rgba(192, 160, 98, 0.2);
             border-radius: 8px;
             transition: transform 0.3s ease, border-color 0.3s ease;
         }
+        .highlight-card:hover { transform: translateY(-5px); border-color: var(--gold); }
+        .highlight-card h3 { color: var(--white); margin-bottom: 0; }
 
-        .highlight-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--gold);
-        }
-
-        .highlight-card h3 {
-            color: var(--white);
-            margin-bottom: 0;
-        }
-
-        /* --- Strategy / Text Boxes Section --- */
-        .strategy {
-            background-color: rgba(255, 255, 255, 0.02);
-        }
-
+        /* --- Strategy Section --- */
+        .strategy { background-color: rgba(255, 255, 255, 0.02); }
         .strategy-row {
             display: flex;
             flex-wrap: wrap;
@@ -169,16 +145,8 @@
             gap: 40px;
             margin-bottom: 60px;
         }
-
-        .strategy-content {
-            flex: 1;
-            min-width: 300px;
-        }
-
-        .strategy-box {
-            border-left: 4px solid var(--gold);
-            padding-left: 20px;
-        }
+        .strategy-content { flex: 1; min-width: 300px; }
+        .strategy-box { border-left: 4px solid var(--gold); padding-left: 20px; }
 
         /* --- Footer --- */
         .footer {
@@ -188,15 +156,56 @@
             font-size: 0.9rem;
             color: rgba(255,255,255,0.4);
         }
-
-        .footer a {
+        .footer-links { margin-bottom: 15px; }
+        .footer-links button {
+            background: none;
+            border: none;
             color: var(--gold);
-            margin-left: 10px;
+            font-family: 'Lato', sans-serif;
+            cursor: pointer;
+            margin: 0 10px;
+            font-size: 0.9rem;
+            text-decoration: underline;
         }
-        
-        .footer-links {
-            margin-bottom: 15px;
+        .footer-links button:hover { color: var(--white); }
+        .footer a { color: var(--text-gray); }
+
+        /* --- Modals (The Legal Popups) --- */
+        .modal-overlay {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--modal-bg);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
         }
+        .modal-content {
+            background-color: var(--navy);
+            border: 1px solid var(--gold);
+            padding: 40px;
+            border-radius: 8px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            text-align: left;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        .close-btn {
+            position: absolute;
+            top: 20px; right: 20px;
+            background: none;
+            border: none;
+            color: var(--gold);
+            font-size: 2rem;
+            cursor: pointer;
+            line-height: 1;
+        }
+        /* Helper class to show modal */
+        .modal-overlay.active { display: flex; }
 
         /* --- Mobile Adjustments --- */
         @media (max-width: 768px) {
@@ -214,15 +223,11 @@
         <div class="container hero-content">
             <div class="logo">Signal Point Analytics</div>
             <div class="status-badge">Accepting New Clients</div>
-            
             <h1>Data-Driven Deal Origination for Private Equity & Family Offices</h1>
-            
             <p>
                 We bypass the auction market to identify high-value, off-market assets for discerning investors. 
                 Secure your place on our priority access list for Q1 deal flow.
             </p>
-
-            <!-- Button Placeholder: Add your link here later -->
             <a href="#" class="btn-primary">I'm Interested</a>
         </div>
     </section>
@@ -241,32 +246,18 @@
     <section class="highlights">
         <div class="container">
             <h2>Core Competencies</h2>
-            <p>Our process is designed to deliver precision and exclusivity.</p>
-            
             <div class="highlights-grid">
-                <div class="highlight-card">
-                    <h3>Proprietary Sourcing</h3>
-                </div>
-                <div class="highlight-card">
-                    <h3>Off-Market Access</h3>
-                </div>
-                <div class="highlight-card">
-                    <h3>Algorithmic Vetting</h3>
-                </div>
-                <div class="highlight-card">
-                    <h3>Direct Outreach</h3>
-                </div>
-                <div class="highlight-card">
-                    <h3>Exclusive Negotiation</h3>
-                </div>
-                <div class="highlight-card">
-                    <h3>Buy-Side Advisory</h3>
-                </div>
+                <div class="highlight-card"><h3>Proprietary Sourcing</h3></div>
+                <div class="highlight-card"><h3>Off-Market Access</h3></div>
+                <div class="highlight-card"><h3>Algorithmic Vetting</h3></div>
+                <div class="highlight-card"><h3>Direct Outreach</h3></div>
+                <div class="highlight-card"><h3>Exclusive Negotiation</h3></div>
+                <div class="highlight-card"><h3>Buy-Side Advisory</h3></div>
             </div>
         </div>
     </section>
 
-    <!-- STRATEGY / DETAILS SECTION -->
+    <!-- STRATEGY SECTION -->
     <section class="strategy">
         <div class="container">
             <h2>Our Methodology</h2>
@@ -274,35 +265,27 @@
             <div class="strategy-row">
                 <div class="strategy-content strategy-box">
                     <h3>Quantitative Origination</h3>
-                    <p>
-                        We utilize proprietary data models to bypass the broker market. By aggregating fragmented industry data, we identify high-performing assets that match your specific buy-box criteria before they are listed. We map entire industry verticals to uncover hidden gems.
-                    </p>
+                    <p>We utilize proprietary data models to bypass the broker market. By aggregating fragmented industry data, we identify high-performing assets that match your specific buy-box criteria before they are listed.</p>
                 </div>
             </div>
 
             <div class="strategy-row">
                 <div class="strategy-content strategy-box">
                     <h3>Fundamental Health Scoring</h3>
-                    <p>
-                        Identification is only the first step. We rigorously qualify targets against key performance indicators—analyzing EBITDA margins, churn rates, headcount growth, and owner dependency—to ensure only viable investment vehicles are presented.
-                    </p>
+                    <p>Identification is only the first step. We rigorously qualify targets against key performance indicators—analyzing EBITDA margins, churn rates, headcount growth, and owner dependency—to ensure only viable investment vehicles are presented.</p>
                 </div>
             </div>
 
             <div class="strategy-row">
                 <div class="strategy-content strategy-box">
                     <h3>Direct-to-Owner Access</h3>
-                    <p>
-                        We facilitate exclusive introductions. By engaging owners directly, we remove the friction of competitive auctions, allowing you to build rapport and negotiate deal terms in a private, uncrowded environment. This secures you exclusive negotiating rights.
-                    </p>
+                    <p>We facilitate exclusive introductions. By engaging owners directly, we remove the friction of competitive auctions, allowing you to build rapport and negotiate deal terms in a private, uncrowded environment.</p>
                 </div>
             </div>
 
-            <!-- Second Call to Action at the bottom -->
             <div style="text-align: center; margin-top: 40px;">
                 <a href="#" class="btn-primary">I'm Interested</a>
             </div>
-
         </div>
     </section>
 
@@ -310,17 +293,85 @@
     <footer class="footer">
         <div class="container">
             <div class="footer-links">
-                <!-- These assume you will upload privacy_policy.html and terms_of_use.html later.
-                     If you don't have them yet, these links will 404, which is okay for a 'coming soon' page. -->
-                <a href="privacy_policy.html">Privacy Policy</a>
-                <a href="terms_of_use.html">Terms of Use</a>
+                <!-- These buttons open the modals -->
+                <button onclick="openModal('privacyModal')">Privacy Policy</button>
+                <button onclick="openModal('termsModal')">Terms of Use</button>
             </div>
             <p>&copy; 2025 Signal Point Analytics. All Rights Reserved.</p>
             <p>
-                <a href="mailto:contact@signalpointanalytics.com" style="color: var(--text-gray); font-size: 0.85rem;">contact@signalpointanalytics.com</a>
+                <a href="mailto:contact@signalpointanalytics.com?subject=Inquiry%20regarding%20Off-Market%20Acquisition">contact@signalpointanalytics.com</a>
             </p>
         </div>
     </footer>
+
+    <!-- PRIVACY POLICY MODAL -->
+    <div id="privacyModal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('privacyModal')">&times;</button>
+            <h2>Privacy Policy</h2>
+            <p><strong>Last Updated:</strong> November 22, 2025</p>
+            
+            <h4>1. Introduction</h4>
+            <p>Signal Point Analytics ("we," "us," or "our") respects the privacy of our clients and visitors. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website. We serve a professional client base of Private Equity firms and private investors and are committed to maintaining discretion.</p>
+            
+            <h4>2. Information We Collect</h4>
+            <p>We may collect personal data (name, email, phone) and business data (investment criteria, AUM, strategic goals) that you voluntarily provide when scheduling a consultation. We also automatically collect derivative data like IP addresses and browser types.</p>
+            
+            <h4>3. Use of Your Information</h4>
+            <p>We use your information to schedule consultations, calibrate our data models to your thesis, send notifications of off-market opportunities, and prevent fraud.</p>
+            
+            <h4>4. Disclosure of Your Information</h4>
+            <p>We do not sell or trade your personal information. We may share data with trusted third parties who assist us in operating our website (e.g., scheduling tools), provided they agree to keep this information confidential.</p>
+            
+            <h4>5. Contact Us</h4>
+            <p>If you have questions about this policy, please contact us at contact@signalpointanalytics.com.</p>
+        </div>
+    </div>
+
+    <!-- TERMS OF USE MODAL -->
+    <div id="termsModal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('termsModal')">&times;</button>
+            <h2>Terms of Use</h2>
+            <p><strong>Last Updated:</strong> November 22, 2025</p>
+            
+            <h4>1. Agreement to Terms</h4>
+            <p>These Terms of Use constitute a legally binding agreement made between you and Signal Point Analytics concerning your access to and use of the website.</p>
+            
+            <h4>2. Intellectual Property Rights</h4>
+            <p>The Site, source code, and proprietary data models ("Signal Identification Protocols") are the intellectual property of Signal Point Analytics. You are granted a limited license to access the Site for informational purposes only.</p>
+            
+            <h4>3. Disclaimer of Financial Advice</h4>
+            <p>The information provided on this Site is for informational purposes only and does not constitute financial, investment, legal, or tax advice. We are not a registered broker-dealer. You acknowledge that any acquisition decisions are made at your own risk and you are responsible for your own due diligence.</p>
+            
+            <h4>4. Limitation of Liability</h4>
+            <p>In no event will we be liable for any direct, indirect, or consequential damages, including lost profit or loss of data, arising from your use of the Site.</p>
+            
+            <h4>5. Contact Us</h4>
+            <p>For any questions regarding these Terms, please contact us at contact@signalpointanalytics.com.</p>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT FOR MODALS -->
+    <script>
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling background
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            document.body.style.overflow = 'auto'; // Re-enable scrolling
+        }
+
+        // Close modal if clicking outside the content box
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal-overlay')) {
+                event.target.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+    </script>
 
 </body>
 </html>
