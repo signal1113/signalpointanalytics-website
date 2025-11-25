@@ -157,18 +157,22 @@
             color: rgba(255,255,255,0.4);
         }
         .footer-links { margin-bottom: 15px; }
-        .footer-links button {
-            background: none;
-            border: none;
+        
+        /* UPDATED: Styling for the footer links to look like links but act as buttons */
+        .footer-links a {
             color: var(--gold);
             font-family: 'Lato', sans-serif;
             cursor: pointer;
             margin: 0 10px;
             font-size: 0.9rem;
             text-decoration: underline;
+            background: none;
+            border: none;
+            padding: 0;
         }
-        .footer-links button:hover { color: var(--white); }
-        .footer a { color: var(--text-gray); }
+        .footer-links a:hover { color: var(--white); }
+        
+        .footer p a { color: var(--text-gray); text-decoration: none; }
 
         /* --- Modals (The Legal Popups) --- */
         .modal-overlay {
@@ -293,9 +297,13 @@
     <footer class="footer">
         <div class="container">
             <div class="footer-links">
-                <!-- These buttons open the modals -->
-                <button onclick="openModal('privacyModal')">Privacy Policy</button>
-                <button onclick="openModal('termsModal')">Terms of Use</button>
+                <!-- 
+                   UPDATED LINKS: 
+                   These now use 'javascript:void(0)' to prevent navigating to a new page,
+                   and 'onclick' to open the modal. 
+                -->
+                <a href="javascript:void(0)" onclick="openModal('privacyModal')">Privacy Policy</a>
+                <a href="javascript:void(0)" onclick="openModal('termsModal')">Terms of Use</a>
             </div>
             <p>&copy; 2025 Signal Point Analytics. All Rights Reserved.</p>
             <p>
